@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 // Endpoint to execute the PowerShell scripts
-app.post("/execute", (req, res) => {
+app.post("/api/execute", (req, res) => {
   const scriptName = req.body.script; // The name of the PowerShell script to execute (e.g., "scheduleOffPd.ps1")
 
   // Change the directory to the folder containing the PowerShell scripts
