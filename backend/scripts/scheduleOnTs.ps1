@@ -1,4 +1,11 @@
-Connect-AzAccount
+$SecurePassword = ConvertTo-SecureString -String "$env:CLIENT_SECRET" -AsPlainText -Force
+$TenantId = '$env:TENANT_ID'
+$ApplicationId = '$env:CLIENT_ID'
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ApplicationId, $SecurePassword
+
+
+Connect-AzAccount -ServicePrincipal -TenantId $TenantId -Credential $Credential
+
 set-azcontext -Subscription "turkiz-starfish-bsmh-ts-001"
 $new_schedules = @();
 
