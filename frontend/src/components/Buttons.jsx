@@ -15,7 +15,7 @@ const Buttons = () => {
 
         try {
           // Make an API call to your backend to execute the OffPD script
-          const response = await Axios.post('http://localhost:3000/execute', { script: 'scheduleOffPd.ps1' });
+          const response = await Axios.post(`${window.CONFIG.HEZITA_SERVER_ENDPOINT}/execute`, { script: 'scheduleOffPd.ps1' });
     
           // Handle the response from the backend (if needed)
           console.log('Response:', response.data);
@@ -29,7 +29,7 @@ const Buttons = () => {
       const handleOnPDClick = async () => {
         try {
           // Make an API call to your backend to execute the OffPD script
-          const response = await Axios.post('http://localhost:3000/execute', { script: 'scheduleOnPd.ps1' });
+          const response = await Axios.post(`${window.CONFIG.HEZITA_SERVER_ENDPOINT}/execute`, { script: 'scheduleOnPd.ps1' });
     
           // Handle the response from the backend (if needed)
           console.log('Response:', response.data);
@@ -43,7 +43,7 @@ const Buttons = () => {
       const handleOnTSClick = async () => {
         try {
           // Make an API call to your backend to execute the OffPD script
-          const response = await Axios.post('http://localhost:3000/execute', { script: 'scheduleOnTs.ps1' });
+          const response = await Axios.post(`${window.CONFIG.HEZITA_SERVER_ENDPOINT}/execute`, { script: 'scheduleOnTs.ps1' });
     
           // Handle the response from the backend (if needed)
           console.log('Response:', response.data);
@@ -57,7 +57,7 @@ const Buttons = () => {
       const handleOffTSClick = async () => {
         try {
           // Make an API call to your backend to execute the OffPD script
-          const response = await Axios.post('http://localhost:3000/execute', { script: 'scheduleOffTs.ps1' });
+          const response = await Axios.post(`${window.CONFIG.HEZITA_SERVER_ENDPOINT}/execute`, { script: 'scheduleOffTs.ps1' });
     
           // Handle the response from the backend (if needed)
           console.log('Response:', response.data);
