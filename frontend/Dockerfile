@@ -5,6 +5,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
 COPY package-lock.json ./
 COPY . ./
+RUN pwd
+RUN ls -l
 RUN touch frontend/public/config.js
 RUN npm install
 RUN npm run build
