@@ -6,12 +6,12 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 
-COPY ["package.json", "yarn.lock*", "./"]
-RUN yarn install
+COPY ["package.json", "package-lock.json", "./"]
+RUN npm install
 
 # Copy the entire directory
 COPY . .
 
 # Start Container
-CMD ["npm", "start"]
+CMD ["npm", "build"]
 
