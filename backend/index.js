@@ -17,7 +17,7 @@ app.post("/api/execute", (req, res) => {
 
   // Execute the PowerShell script using child_process.exec
   exec(
-    `powershell.exe -ExecutionPolicy Bypass -File scripts/${scriptName}`,
+    `pwsh -ExecutionPolicy Bypass -File scripts/${scriptName}`,
     (error, stdout, stderr) => {
       if (error) {
         console.error("Error executing script:", error.message);
