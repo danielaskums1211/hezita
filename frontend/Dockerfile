@@ -8,7 +8,6 @@ COPY . ./
 RUN touch /app/public/config.js
 RUN npm install
 RUN npm run build
-RUN ls -l
 
 FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
