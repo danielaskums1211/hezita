@@ -27,7 +27,7 @@ variables:
    # - add your specific script fot your project 
    # IMPORTANT - theres no need to do the initial login to the acr - kaniko takes the credentials from the env variables CI_REGISTRY , CI_REGISTRY_PASSWORD , CI_REGISTRY_USER
    - /kaniko/executor --context "${CI_PROJECT_DIR}/$SIDE" 
-    --dockerfile "${CI_PROJECT_DIR}/$SIDE/DockerFile"
+    --dockerfile "${CI_PROJECT_DIR}/$SIDE/Dockerfile"
     --destination "bsmchacr.azurecr.io/mitkan/hezita-$SIDE:$build_tag"
 
 # yaml anchor - you can call it multiple times in the rest of the file
