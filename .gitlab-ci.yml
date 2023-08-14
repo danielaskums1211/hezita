@@ -1,0 +1,71 @@
+stages:
+ - build
+ - push
+
+workflow:
+   # configure environment-dependent pipeline CI variables
+    rules:
+      - if: $CI_COMMIT_BRANCH == "dev"
+        variables:
+          ENVIRONMENT_NAME: development
+          TAG: "dev-"
+      - if: $CI_COMMIT_BRANCH == "master"
+        variables:
+          ENVIRONMENT_NAME: prod
+          TAG: ""
+variables:
+  build_tag: $CI_COMMIT_BRANCH-$CI_COMMIT_SHORT_SHA
+
+# yaml anchor - you can call it multiple times in the rest of the file
+# Template for image build step
+
+.build_image:
+  image: 
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: ["$ENVIRONMENT_NAME"]
+  script:
+   # - add your specific script fot your project 
+   # IMPORTANT - theres no need to do the initial login to the acr - kaniko takes the credentials from the env variables CI_REGISTRY , CI_REGISTRY_PASSWORD , CI_REGISTRY_USER
+   - /kaniko/executor --context "${CI_PROJECT_DIR}/$SIDE" 
+    --dockerfile "${CI_PROJECT_DIR}/$SIDE/DockerFile"
+    --destination "bsmchacr.azurecr.io/mitkan/hezita-$SIDE:$build_tag"
+
+# yaml anchor - you can call it multiple times in the rest of the file
+# Template for image push step
+.push_image:
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [""]
+    
+  script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - crane tag bsmchacr.azurecr.io/mitkan/hezita-$SIDE:$build_tag ${TAG}latest # // Retag the image with the "latest" tag
+
+
+build-backend-image:
+  stage: build
+  extends: .build_image
+  variables:
+    SIDE: "backend"
+
+build-frontend-image:
+  stage: build
+  extends: .build_image
+  variables:
+    SIDE: "frontend"
+
+push-backend-image:
+  extends: .push_image
+  stage: push
+  variables:
+    SIDE: "backend"
+  needs:
+    - job: build-backend-image
+
+push-frontend-image:
+  extends: .push_image
+  stage: push
+  variables:
+    SIDE: "frontend"
+  needs:
+    - job: build-frontend-image
