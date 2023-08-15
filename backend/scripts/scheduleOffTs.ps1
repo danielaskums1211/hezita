@@ -1,6 +1,6 @@
-$SecurePassword = ConvertTo-SecureString -String "$env:CLIENT_SECRET" -AsPlainText -Force
+$SecurePassword = ConvertTo-SecureString -String "$env:PD_CLIENT_SECRET" -AsPlainText -Force
 $TenantId = '$env:TENANT_ID'
-$ApplicationId = '$env:CLIENT_ID'
+$ApplicationId = '$env:PD_CLIENT_ID'
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ApplicationId, $SecurePassword
 
 
