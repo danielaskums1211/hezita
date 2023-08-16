@@ -39,6 +39,8 @@ RUN chmod +x /opt/microsoft/powershell/7/pwsh
 # Create the symbolic link that points to pwsh
 RUN ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh
 
+RUN pwsh -Command "Install-Module -Name Az.Automation -Repository PSGallery -Force"
+
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm install
 
