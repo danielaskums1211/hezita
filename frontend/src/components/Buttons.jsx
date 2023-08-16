@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 const Buttons = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -11,6 +12,8 @@ const Buttons = () => {
 
   const handleOffPDClick = async () => {
     try {
+      setIsLoading(true);
+
       // Make an API call to your backend to execute the OffPD script
       const response = await Axios.post(
         `${window.CONFIG.REACT_APP_HEZITA_SERVER_ENDPOINT}/execute`,
@@ -23,11 +26,15 @@ const Buttons = () => {
     } catch (error) {
       console.error("Error executing OffPD script:", error);
       alert("וואלה משהו לא עובד אבא");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleOnPDClick = async () => {
     try {
+      setIsLoading(true);
+
       // Make an API call to your backend to execute the OffPD script
       const response = await Axios.post(
         `${window.CONFIG.REACT_APP_HEZITA_SERVER_ENDPOINT}/execute`,
@@ -40,11 +47,15 @@ const Buttons = () => {
     } catch (error) {
       console.error("Error executing OffPD script:", error);
       alert("וואלה משהו לא עובד אבא");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleOnTSClick = async () => {
     try {
+      setIsLoading(true);
+
       // Make an API call to your backend to execute the OffPD script
       const response = await Axios.post(
         `${window.CONFIG.REACT_APP_HEZITA_SERVER_ENDPOINT}/execute`,
@@ -57,11 +68,15 @@ const Buttons = () => {
     } catch (error) {
       console.error("Error executing OffPD script:", error);
       alert("וואלה משהו לא עובד אבא");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleOffTSClick = async () => {
     try {
+      setIsLoading(true);
+
       // Make an API call to your backend to execute the OffPD script
       const response = await Axios.post(
         `${window.CONFIG.REACT_APP_HEZITA_SERVER_ENDPOINT}/execute`,
@@ -73,6 +88,8 @@ const Buttons = () => {
       alert("תבלה כפרה, עובד");
     } catch (error) {
       console.error("Error executing OffPD script:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -105,6 +122,15 @@ const Buttons = () => {
           <span class="star star-8"></span>
         </label>
       </div>
+      {isLoading && (
+        <div className="loading">
+          <img
+            src="https://gifdb.com/images/high/grandma-2d-sketch-floss-dance-0xcvpe8bfhqzbzff.gif"
+            style={{ width: "400px", height: "400px" }}
+            alt="loading..."
+          />
+        </div>
+      )}
       <h1 className="intro">?שלום, מה תרצה לעשות</h1>
       <table>
         <thead>
@@ -119,12 +145,20 @@ const Buttons = () => {
           </tr>
           <tr>
             <td>
-              <button className="onButton" onClick={handleOnPDClick}>
+              <button
+                className="onButton"
+                disabled={isLoading}
+                onClick={handleOnPDClick}
+              >
                 send OnPD
               </button>
             </td>
             <td>
-              <button className="onButton" onClick={handleOnTSClick}>
+              <button
+                className="onButton"
+                disabled={isLoading}
+                onClick={handleOnTSClick}
+              >
                 send OnTS
               </button>
             </td>
@@ -137,12 +171,20 @@ const Buttons = () => {
           </tr>
           <tr>
             <td>
-              <button className="offButton" onClick={handleOffPDClick}>
+              <button
+                className="offButton"
+                disabled={isLoading}
+                onClick={handleOffPDClick}
+              >
                 send OffPD
               </button>
             </td>
             <td>
-              <button className="offButton" onClick={handleOffTSClick}>
+              <button
+                className="offButton"
+                disabled={isLoading}
+                onClick={handleOffTSClick}
+              >
                 send OffTS
               </button>
             </td>
