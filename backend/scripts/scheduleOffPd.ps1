@@ -1,8 +1,7 @@
-$SecurePassword = ConvertTo-SecureString -String "$env:PD_CLIENT_SECRET" -AsPlainText -Force
+$SecurePassword = ConvertTo-SecureString -String "$env:CLIENT_SECRET" -AsPlainText -Force
 $TenantId = "$env:TENANT_ID"
-$ApplicationId = "$env:PD_CLIENT_ID"
-$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ApplicationId, $SecurePassword
-
+$ClientId = "$env:CLIENT_ID"
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ClientId, $SecurePassword
 
 Connect-AzAccount -ServicePrincipal -TenantId $TenantId -Credential $Credential
 
