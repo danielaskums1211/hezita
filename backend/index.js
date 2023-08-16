@@ -2,10 +2,12 @@ const express = require("express");
 const { exec } = require("child_process");
 const cors = require("cors");
 const app = express();
+const timeout = require("connect-timeout");
 require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
+app.use(timeout(600000));
 
 // Endpoint to execute the PowerShell scripts
 app.post("/api/execute", (req, res) => {
@@ -16,18 +18,15 @@ app.post("/api/execute", (req, res) => {
   process.chdir(scriptDir);
 
   // Execute the PowerShell script using child_process.exec
-  exec(
-    `pwsh -File ${scriptName}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error("Error executing script:", error.message);
-        res.status(500).json({ error: "Error executing script" });
-      } else {
-        console.log("Script output:", stdout);
-        res.status(200).json({ result: "Script executed successfully" });
-      }
+  exec(`pwsh -File ${scriptName}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error executing script:", error.message);
+      res.status(500).json({ error: "Error executing script" });
+    } else {
+      console.log("Script output:", stdout);
+      res.status(200).json({ result: "Script executed successfully" });
     }
-  );
+  });
 });
 
 app.listen(+process.env?.PORT || 3000, () => {
